@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
-import POJO.Usuario;
+import POJO.usuario;
 import Conexion.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import java.util.List;
  *
  * @author USER
  */
-public class UsuarioDAO {
+public class usuarioDAO {
     // CREATE - Crear usuario
-    public boolean insertar(Usuario usuario) {
+    public boolean insertar(usuario usuario) {
         String sql = "INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -32,7 +32,7 @@ public class UsuarioDAO {
     }
 
     // READ - Leer/buscar usuario por correo
-    public Usuario buscarPorNombre(String nombre) {
+    public usuario buscarPorNombre(String nombre) {
         String sql = "SELECT * FROM usuarios WHERE nombre = ?";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -41,7 +41,7 @@ public class UsuarioDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Usuario(
+                return new usuario(
                     rs.getInt("id_usuario"),
                     rs.getString("nombre"),
                     rs.getString("correo"),
@@ -56,15 +56,15 @@ public class UsuarioDAO {
     }
 
     // READ - Obtener todos los usuarios
-    public List<Usuario> obtenerTodos() {
-        List<Usuario> lista = new ArrayList<>();
+    public List<usuario> obtenerTodos() {
+        List<usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuarios";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Usuario u = new Usuario(
+                usuario u = new usuario(
                     rs.getInt("id_usuario"),
                     rs.getString("nombre"),
                     rs.getString("correo"),
@@ -80,7 +80,7 @@ public class UsuarioDAO {
     }
 
     // UPDATE - Actualizar usuario
-    public boolean actualizar(Usuario usuario) {
+    public boolean actualizar(usuario usuario) {
         String sql = "UPDATE usuarios SET nombre = ?, correo = ?, contrasena = ? WHERE id_usuario = ?";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -5,12 +5,13 @@
 package test;
 import Conexion.ConexionBD;
 import java.sql.Connection;
+import java.sql.SQLException;
 /**
  *
  * @author USER
  */
 public class PruebaConexion {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Connection conn = ConexionBD.conectar();
         if (conn != null) {
             System.out.println("Conectado correctamente a la base de datos.");
@@ -18,4 +19,5 @@ public class PruebaConexion {
             System.out.println("No se pudo conectar.");
         }
     }
+    
 }

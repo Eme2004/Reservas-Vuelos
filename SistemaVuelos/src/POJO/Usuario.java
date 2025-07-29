@@ -8,28 +8,28 @@ package POJO;
  *
  * @author USER
  */
-public class Usuario {
-    private int idUsuario;
+public class usuario {
+    private int idusuario;
     private String nombre;
     private String correo;
     private String contrasena;
     
     
-    public Usuario(){}
+    public usuario(){}
 
-    public Usuario(int idUsuario, String nombre, String correo, String contrasena) {
-        this.idUsuario = idUsuario;
+    public usuario(int idusuario, String nombre, String correo, String contrasena) {
+        this.idusuario = idusuario;
         this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
     }
 
     public int getIdUsuario() {
-        return idUsuario;
+        return idusuario;
     }
 
     public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+        this.idusuario = idUsuario;
     }
 
     public String getNombre() {
@@ -58,7 +58,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", correo=" + correo + ", contrasena=" + contrasena + '}';
+        return "Usuario{" + "idUsuario=" + idusuario + ", nombre=" + nombre + ", correo=" + correo + ", contrasena=" + contrasena + '}';
     }
     
     
