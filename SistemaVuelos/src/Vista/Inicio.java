@@ -82,8 +82,8 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // Boton que llamara a el formulario de registro
-        Formulario formulario = new Formulario();
-        formulario.setVisible(true);
+        Ventanaprincipal principal = new Ventanaprincipal();
+        principal.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
