@@ -93,6 +93,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Buscar Vuelos"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarVuelosActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnHacerReserva">
       <Properties>
@@ -101,6 +104,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Hacer Reserva"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHacerReservaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnVerReservas">
       <Properties>
@@ -109,6 +115,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Ver Mis Reservas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerReservasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCerrarSesion">
       <Properties>
@@ -117,6 +126,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Cerra Sesion"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

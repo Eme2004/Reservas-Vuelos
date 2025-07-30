@@ -16,21 +16,20 @@ public class Vuelo {
     private String destino;
     private LocalDate fechaSalida;
     private LocalTime horaSalida;
-    private int escalas;
+    private String escalas;  
     private double precio;
     private int asientosDisponibles;
     
-    
     public Vuelo(){}
 
-    public Vuelo(int idVuelo, String aerolinea, String origen, String destino, LocalDate fechaSalida, LocalTime horaSalida, int escalas, double precio, int asientosDisponibles) {
+    public Vuelo(int idVuelo, String aerolinea, String origen, String destino, LocalDate fechaSalida, LocalTime horaSalida, String escalas, double precio, int asientosDisponibles) {
         this.idVuelo = idVuelo;
         this.aerolinea = aerolinea;
         this.origen = origen;
         this.destino = destino;
         this.fechaSalida = fechaSalida;
         this.horaSalida = horaSalida;
-        this.escalas = escalas;
+        this.escalas = escalas;  
         this.precio = precio;
         this.asientosDisponibles = asientosDisponibles;
     }
@@ -83,11 +82,11 @@ public class Vuelo {
         this.horaSalida = horaSalida;
     }
 
-    public int getEscalas() {
+    public String getEscalas() {  
         return escalas;
     }
 
-    public void setEscalas(int escalas) {
+    public void setEscalas(String escalas) {  
         this.escalas = escalas;
     }
 
@@ -109,8 +108,17 @@ public class Vuelo {
 
     @Override
     public String toString() {
-        return "Vuelo{" + "idVuelo=" + idVuelo + ", aerolinea=" + aerolinea + ", origen=" + origen + ", destino=" + destino + ", fechaSalida=" + fechaSalida + ", horaSalida=" + horaSalida + ", escalas=" + escalas + ", precio=" + precio + ", asientosDisponibles=" + asientosDisponibles + '}';
+        return "Vuelo{" + 
+            "idVuelo=" + idVuelo + 
+            ", aerolinea=" + aerolinea + 
+            ", origen=" + origen + 
+            ", destino=" + destino + 
+            ", fechaSalida=" + fechaSalida + 
+            ", horaSalida=" + horaSalida + 
+            ", escalas=" + escalas +  
+            ", precio=" + precio + 
+            ", asientosDisponibles=" + asientosDisponibles + 
+            '}';
     }
-    
-    
 }
+

@@ -29,7 +29,7 @@ public class VueloDAO {
             stmt.setString(3, vuelo.getDestino());
             stmt.setDate(4, Date.valueOf(vuelo.getFechaSalida()));
             stmt.setTime(5, Time.valueOf(vuelo.getHoraSalida()));
-            stmt.setInt(6, vuelo.getEscalas());
+            stmt.setString(6, vuelo.getEscalas());  
             stmt.setDouble(7, vuelo.getPrecio());
             stmt.setInt(8, vuelo.getAsientosDisponibles());
 
@@ -57,7 +57,7 @@ public class VueloDAO {
                     rs.getString("destino"),
                     rs.getDate("fecha_salida").toLocalDate(),
                     rs.getTime("hora_salida").toLocalTime(),
-                    rs.getInt("escalas"),
+                    rs.getString("escalas"),  
                     rs.getDouble("precio"),
                     rs.getInt("asientos_disponibles")
                 );
@@ -92,7 +92,7 @@ public class VueloDAO {
                     rs.getString("destino"),
                     rs.getDate("fecha_salida").toLocalDate(),
                     rs.getTime("hora_salida").toLocalTime(),
-                    rs.getInt("escalas"),
+                    rs.getString("escalas"),  
                     rs.getDouble("precio"),
                     rs.getInt("asientos_disponibles")
                 );
@@ -117,7 +117,7 @@ public class VueloDAO {
             stmt.setString(3, vuelo.getDestino());
             stmt.setDate(4, Date.valueOf(vuelo.getFechaSalida()));
             stmt.setTime(5, Time.valueOf(vuelo.getHoraSalida()));
-            stmt.setInt(6, vuelo.getEscalas());
+            stmt.setString(6, vuelo.getEscalas());  
             stmt.setDouble(7, vuelo.getPrecio());
             stmt.setInt(8, vuelo.getAsientosDisponibles());
             stmt.setInt(9, vuelo.getIdVuelo());

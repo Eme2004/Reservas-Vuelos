@@ -50,15 +50,35 @@ public class VentanaReservas extends javax.swing.JFrame {
 
         btnBuscarVuelos.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnBuscarVuelos.setText("Buscar Vuelos");
+        btnBuscarVuelos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarVuelosActionPerformed(evt);
+            }
+        });
 
         btnHacerReserva.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnHacerReserva.setText("Hacer Reserva");
+        btnHacerReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHacerReservaActionPerformed(evt);
+            }
+        });
 
         btnVerReservas.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnVerReservas.setText("Ver Mis Reservas");
+        btnVerReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerReservasActionPerformed(evt);
+            }
+        });
 
         btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnCerrarSesion.setText("Cerra Sesion");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,6 +115,26 @@ public class VentanaReservas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarVuelosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVuelosActionPerformed
+        // TODO add your handling code here:
+        VentanaBusqueda busqueda = new VentanaBusqueda();
+        busqueda.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarVuelosActionPerformed
+
+    private void btnHacerReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHacerReservaActionPerformed
+
+    private void btnVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReservasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerReservasActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
