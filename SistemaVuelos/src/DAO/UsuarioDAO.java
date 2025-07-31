@@ -32,12 +32,12 @@ public class usuarioDAO {
     }
 
     // READ - Leer/buscar usuario por correo
-    public usuario buscarPorNombre(String nombre) {
-        String sql = "SELECT * FROM usuarios WHERE nombre = ?";
+    public usuario buscarPorCorreo(String correo) {
+        String sql = "SELECT * FROM usuarios WHERE correo = ?";
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, nombre);
+            stmt.setString(1, correo);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -113,21 +113,29 @@ public class usuarioDAO {
         }
     }
 
-    // LOGIN - Autenticación de usuario
-    public boolean autenticar(String correo, String contrasena) {
-        String sql = "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?";
-        try (Connection conn = ConexionBD.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    // LOGIN - Autenticación de usuario que devuelve el usuario completo si existe, o null si no
+public usuario autenticar(String correo, String contrasena) {
+    String sql = "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?";
+    try (Connection conn = ConexionBD.conectar();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, correo);
-            stmt.setString(2, contrasena);
-            ResultSet rs = stmt.executeQuery();
+        stmt.setString(1, correo);
+        stmt.setString(2, contrasena);
+        ResultSet rs = stmt.executeQuery();
 
-            return rs.next(); // true si encontró el usuario
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error al autenticar usuario: " + e.getMessage());
-            return false;
+        if (rs.next()) {
+            // Retornar objeto usuario con todos los datos, incluido id_usuario
+            return new usuario(
+                rs.getInt("id_usuario"),
+                rs.getString("nombre"),
+                rs.getString("correo"),
+                rs.getString("contrasena")
+            );
         }
+
+    } catch (SQLException e) {
+        System.out.println("❌ Error al autenticar usuario: " + e.getMessage());
     }
+    return null; // no autenticado
 }
+    }

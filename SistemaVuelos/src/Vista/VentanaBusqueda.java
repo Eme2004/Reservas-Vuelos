@@ -15,14 +15,19 @@ import javax.swing.JOptionPane;
  * @author USER
  */
 public class VentanaBusqueda extends javax.swing.JFrame {
+    private int idUsuario;
 
+    public VentanaBusqueda(int idusuario) {
+        this.idUsuario = idusuario;
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+    
+    
     /**
      * Creates new form VentanaBusqueda
      */
-    public VentanaBusqueda() {
-        initComponents();
-    }
-
+    
     
     private void cargarVuelosEnTabla() {
     VueloDAO dao = new VueloDAO();
@@ -39,7 +44,7 @@ public class VentanaBusqueda extends javax.swing.JFrame {
             v.getDestino(),
             v.getFechaSalida(),
             v.getHoraSalida(),
-            v.getEscalas(), // Recuerda: ahora es String tipo "2 escalas (Panamá, Lima)"
+            v.getEscalas(), 
             v.getPrecio(),
             v.getAsientosDisponibles()
         });
@@ -66,6 +71,7 @@ public class VentanaBusqueda extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVuelos = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
+        btnHacerReserva = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +116,14 @@ public class VentanaBusqueda extends javax.swing.JFrame {
             }
         });
 
+        btnHacerReserva.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnHacerReserva.setText("Hacer Reserva");
+        btnHacerReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHacerReservaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,6 +148,8 @@ public class VentanaBusqueda extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnBuscar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnHacerReserva)
+                .addGap(327, 327, 327)
                 .addComponent(btnRegresar))
             .addComponent(jScrollPane1)
         );
@@ -155,7 +171,8 @@ public class VentanaBusqueda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar)
-                    .addComponent(btnRegresar))
+                    .addComponent(btnRegresar)
+                    .addComponent(btnHacerReserva))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(117, 117, 117))
@@ -225,48 +242,46 @@ if (lista.isEmpty()) {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        VentanaReservas reservas = new VentanaReservas();
+        VentanaReservas reservas = new VentanaReservas(idUsuario);
         reservas.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnHacerReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerReservaActionPerformed
+        // TODO add your handling code here:
+  int fila = tblVuelos.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Seleccione un vuelo.");
+        return;
+    }
+
+    DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
+
+    Vuelo vuelo = new Vuelo();
+    vuelo.setIdVuelo(Integer.parseInt(modelo.getValueAt(fila, 0).toString()));
+    vuelo.setAerolinea(modelo.getValueAt(fila, 1).toString());
+    vuelo.setOrigen(modelo.getValueAt(fila, 2).toString());
+    vuelo.setDestino(modelo.getValueAt(fila, 3).toString());
+    String fecha = modelo.getValueAt(fila, 4) != null ? modelo.getValueAt(fila, 4).toString() : "";
+    String hora = modelo.getValueAt(fila, 5) != null ? modelo.getValueAt(fila, 5).toString() : "";
+    String escalasStr = modelo.getValueAt(fila, 6) != null ? modelo.getValueAt(fila, 6).toString() : "0";
+
+ 
+    vuelo.setPrecio(Double.parseDouble(modelo.getValueAt(fila, 7).toString()));
+    vuelo.setAsientosDisponibles(Integer.parseInt(modelo.getValueAt(fila, 8).toString()));
+
+    Reserva reserva = new Reserva(vuelo, idUsuario);
+    reserva.setVisible(true);
+    }//GEN-LAST:event_btnHacerReservaActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaBusqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaBusqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaBusqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaBusqueda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaBusqueda().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnHacerReserva;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

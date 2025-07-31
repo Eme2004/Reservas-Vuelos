@@ -9,13 +9,20 @@ package Vista;
  * @author USER
  */
 public class VentanaReservas extends javax.swing.JFrame {
+     private int idUsuario;
 
+    public VentanaReservas(int idUsuario) {
+        initComponents();
+        this.idUsuario = idUsuario;
+        setLocationRelativeTo(null);
+    }
+
+     
+     
     /**
      * Creates new form VentanaReservas
      */
-    public VentanaReservas() {
-        initComponents();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,7 +36,6 @@ public class VentanaReservas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnBuscarVuelos = new javax.swing.JButton();
-        btnHacerReserva = new javax.swing.JButton();
         btnVerReservas = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
 
@@ -53,14 +59,6 @@ public class VentanaReservas extends javax.swing.JFrame {
         btnBuscarVuelos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarVuelosActionPerformed(evt);
-            }
-        });
-
-        btnHacerReserva.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        btnHacerReserva.setText("Hacer Reserva");
-        btnHacerReserva.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHacerReservaActionPerformed(evt);
             }
         });
 
@@ -89,14 +87,14 @@ public class VentanaReservas extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuscarVuelos)
-                    .addComponent(btnVerReservas))
+                .addComponent(btnBuscarVuelos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnHacerReserva, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnVerReservas)
                 .addGap(34, 34, 34))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(160, 160, 160))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,12 +103,10 @@ public class VentanaReservas extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscarVuelos)
-                    .addComponent(btnHacerReserva))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerReservas)
-                    .addComponent(btnCerrarSesion))
-                .addGap(17, 17, 17))
+                    .addComponent(btnVerReservas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion)
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -118,17 +114,15 @@ public class VentanaReservas extends javax.swing.JFrame {
 
     private void btnBuscarVuelosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVuelosActionPerformed
         // TODO add your handling code here:
-        VentanaBusqueda busqueda = new VentanaBusqueda();
+        VentanaBusqueda busqueda = new VentanaBusqueda(idUsuario);
         busqueda.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBuscarVuelosActionPerformed
 
-    private void btnHacerReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerReservaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnHacerReservaActionPerformed
-
     private void btnVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReservasActionPerformed
         // TODO add your handling code here:
+       MisReservas ventana = new MisReservas(idUsuario);
+       ventana.setVisible(true);
     }//GEN-LAST:event_btnVerReservasActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
@@ -139,42 +133,11 @@ public class VentanaReservas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaReservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaReservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaReservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaReservas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VentanaReservas().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarVuelos;
     private javax.swing.JButton btnCerrarSesion;
-    private javax.swing.JButton btnHacerReserva;
     private javax.swing.JButton btnVerReservas;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
