@@ -5,23 +5,27 @@
 package Vista;
 import DAO.usuarioDAO;
 import POJO.usuario;
-
-
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author USER
+ * @author Emesis
+ */
+/**
+ * Clase que representa la ventana de inicio de sesión de la aplicación.
+ * Hereda de JFrame y contiene los componentes gráficos para que el usuario ingrese sus credenciales.
  */
 public class InicioSesion extends javax.swing.JFrame {
 
     /**
-     * Creates new form InicioSesion
+     * Constructor de la clase InicioSesion.
+     * Inicializa los componentes de la interfaz gráfica y centra la ventana en la pantalla.
      */
     public InicioSesion() {
-        initComponents();
-        setLocationRelativeTo(null);
+        initComponents();           // Inicializa todos los componentes gráficos (botones, campos, labels, etc.)
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
+
 
    
     
@@ -141,36 +145,58 @@ public class InicioSesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+ * Evento que se ejecuta al presionar el botón "Iniciar Sesión".
+ * Intenta autenticar al usuario con el correo y contraseña ingresados.
+ * Si la autenticación es exitosa, abre la ventana de reservas pasando el ID del usuario.
+ * Si falla, muestra un mensaje de error.
+ *
+ * @param evt Evento generado por el clic en el botón
+ */
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
+      // Obtener los datos ingresados en los campos de texto
     String correo = txtCorreo.getText();
-String contrasena = new String(txtContrasena.getPassword());
+    String contrasena = new String(txtContrasena.getPassword());
 
-usuarioDAO dao = new usuarioDAO();
-usuario u = dao.autenticar(correo, contrasena);
+    // Crear instancia del DAO para acceder a la base de datos
+    usuarioDAO dao = new usuarioDAO();
 
-if (u != null) {
-    int idUsuario = u.getIdUsuario(); // 💡 Este es el ID correcto desde la BD
-    JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
+    // Intentar autenticar usuario con los datos proporcionados
+    usuario u = dao.autenticar(correo, contrasena);
 
-    // Abrir ventana principal pasando el ID correcto
-    
-    VentanaReservas reservas = new VentanaReservas(idUsuario);
-    reservas.setVisible(true);
-    this.dispose();
+    if (u != null) {
+        // Si el usuario existe y la contraseña es correcta
+        int idUsuario = u.getIdUsuario(); // Obtener ID real del usuario desde la BD
+        JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso");
 
-} else {
-    JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.");
-}
+        // Crear la ventana de reservas y pasar el ID del usuario autenticado
+        VentanaReservas reservas = new VentanaReservas(idUsuario);
+        reservas.setVisible(true);
+
+        // Cerrar la ventana actual de inicio de sesión
+        this.dispose();
+
+    } else {
+        // Si no se encontró el usuario o la contraseña es incorrecta
+        JOptionPane.showMessageDialog(this, "Correo o contraseña incorrectos.");
+    }
   
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
-
+    /**
+ * Evento que se ejecuta al presionar el botón "Regresar".
+ * Cierra la ventana actual y regresa a la ventana principal.
+ *
+ * @param evt Evento generado por el clic en el botón
+ */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
-        Ventanaprincipal principal = new Ventanaprincipal();
-        principal.setVisible(true);
-        this.dispose();
+       // Crear una instancia de la ventana principal
+    Ventanaprincipal principal = new Ventanaprincipal();
+
+    // Mostrar la ventana principal
+    principal.setVisible(true);
+
+    // Cerrar la ventana actual
+    this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

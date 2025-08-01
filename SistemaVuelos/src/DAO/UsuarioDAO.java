@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  *
- * @author USER
+ * @author Emesis
  */
 public class usuarioDAO {
     // CREATE - Crear usuario
@@ -74,7 +74,7 @@ public class usuarioDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al obtener usuarios: " + e.getMessage());
+            System.out.println(" Error al obtener usuarios: " + e.getMessage());
         }
         return lista;
     }
@@ -93,7 +93,7 @@ public class usuarioDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al actualizar usuario: " + e.getMessage());
+            System.out.println(" Error al actualizar usuario: " + e.getMessage());
             return false;
         }
     }
@@ -108,7 +108,7 @@ public class usuarioDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al eliminar usuario: " + e.getMessage());
+            System.out.println(" Error al eliminar usuario: " + e.getMessage());
             return false;
         }
     }
@@ -134,7 +134,7 @@ public usuario autenticar(String correo, String contrasena) {
         }
 
     } catch (SQLException e) {
-        System.out.println("❌ Error al autenticar usuario: " + e.getMessage());
+        System.out.println(" Error al autenticar usuario: " + e.getMessage());
     }
     return null; // no autenticado
 }

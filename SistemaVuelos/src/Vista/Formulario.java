@@ -8,17 +8,19 @@ import DAO.usuarioDAO;
 import javax.swing.JOptionPane;
 /**
  *
- * @author USER
+ * @author Emesis
  */
 public class Formulario extends javax.swing.JFrame {
 
     /**
-     * Creates new form Formulario
+     * Constructor de la clase Formulario.
+     * Inicializa los componentes gráficos y centra la ventana en la pantalla.
      */
     public Formulario() {
-        initComponents();
-        setLocationRelativeTo(null);
+        initComponents(); // Método generado automáticamente que inicializa los componentes Swing
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -107,6 +109,11 @@ public class Formulario extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,36 +155,56 @@ public class Formulario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    /**
+     * Evento que se ejecuta al presionar el botón "Registrar".
+     * Se encarga de capturar los datos del formulario, validar los campos,
+     * crear un objeto usuario y guardar los datos en la base de datos.
+     * 
+     * @param evt Evento generado por el clic en el botón
+     */
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        //El boton registrara los datos del nuevo usuario
+       // Obtener texto de los campos del formulario, eliminando espacios al inicio y final
         String nombre = txtnombre.getText().trim();
-    String correo = txtcorreo.getText().trim();
-    String contrasena = new String(txtContrasena.getPassword()).trim();
+        String correo = txtcorreo.getText().trim();
+        String contrasena = new String(txtContrasena.getPassword()).trim();
 
-    if (nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
-        JOptionPane.showMessageDialog(this, " Todos los campos son obligatorios.");
-        return;
-    }
+        // Validar que ninguno de los campos esté vacío
+        if (nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
+            return; // Salir del método si falta algún dato
+        }
 
-    usuario usuario = new usuario();
-    usuario.setNombre(nombre);
-    usuario.setCorreo(correo);
-    usuario.setContrasena(contrasena);
+        // Crear un objeto usuario y asignar los datos ingresados
+        usuario usuario = new usuario();
+        usuario.setNombre(nombre);
+        usuario.setCorreo(correo);
+        usuario.setContrasena(contrasena);
 
-    usuarioDAO dao = new usuarioDAO();
-    boolean exito = dao.insertar(usuario);
+        // Crear instancia del DAO para operaciones con usuarios
+        usuarioDAO dao = new usuarioDAO();
 
-    if (exito) {
-        JOptionPane.showMessageDialog(this, "✅ Usuario registrado correctamente.");
-        txtnombre.setText("");
-        txtcorreo.setText("");
-        txtContrasena.setText("");
-    } else {
-        JOptionPane.showMessageDialog(this, "❌ Error al registrar usuario.");
-    }
-        
+        // Intentar insertar el usuario en la base de datos
+        boolean exito = dao.insertar(usuario);
+
+        // Mostrar mensaje según el resultado de la inserción
+        if (exito) {
+            JOptionPane.showMessageDialog(this, " Usuario registrado correctamente.");
+            // Limpiar los campos del formulario para una nueva entrada
+            txtnombre.setText("");
+            txtcorreo.setText("");
+            txtContrasena.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, " Error al registrar usuario.");
+        }  
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        Ventanaprincipal principal = new Ventanaprincipal();
+        principal.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -12,48 +12,71 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author USER
+ * @author Emesis
+ */
+/**
+ * Clase que representa la ventana donde se muestran las reservas del usuario.
+ * Hereda de JFrame e incluye una tabla para listar las reservas.
  */
 public class MisReservas extends javax.swing.JFrame {
+    
+    // Modelo de tabla para gestionar las filas y columnas de la tabla de reservas
     private DefaultTableModel modelo;
+
+    // ID del usuario cuyas reservas se van a mostrar
     private int idUsuario;
     
-   public MisReservas(int idUsuario) {
-        initComponents();
-        setLocationRelativeTo(null);
-        this.idUsuario = idUsuario;
-        inicializarTabla();     
-        cargarReservas();       
+    /**
+     * Constructor de la clase MisReservas.
+     * Inicializa componentes, centra la ventana, recibe el ID del usuario,
+     * inicializa la tabla y carga las reservas desde la base de datos.
+     * 
+     * @param idUsuario ID del usuario autenticado para filtrar reservas
+     */
+    public MisReservas(int idUsuario) {
+        initComponents();           // Inicializa los componentes gráficos (tabla, botones, etc.)
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+        this.idUsuario = idUsuario;  // Guarda el ID del usuario
+        inicializarTabla();          // Configura la tabla con las columnas necesarias
+        cargarReservas();            // Carga y muestra las reservas del usuario en la tabla
+        
+        // Debug: muestra en consola el ID recibido para confirmar que está correcto
         System.out.println("ID de usuario recibido en MisReservas: " + idUsuario);
     }
+    
     /**
-     * Creates new form MisReservas
+     * Método que configura el modelo de la tabla para mostrar las columnas correctas
+     * y asocia el modelo a la tabla visual.
      */
-    
-
     private void inicializarTabla() {
-    modelo = new DefaultTableModel(
-        new String[]{"ID Reserva", "Vuelo", "Origen", "Destino", "Fecha Vuelo", "Cantidad", "Fecha Reserva"}, 0
-    );
-    tablaReservas.setModel(modelo);
-}
-    
-    private void cargarReservas() {
-    modelo.setRowCount(0);
-    ReservaDAO dao = new ReservaDAO();
-    List<ReservaInfo> reservas = dao.obtenerReservasPorUsuario(idUsuario);
-
-    for (ReservaInfo r : reservas) {
-        modelo.addRow(new Object[]{
-            r.getIdReserva(),
-            r.getNombreVuelo(),
-            r.getOrigen(),
-            r.getDestino(),
-            r.getFechaVuelo(),
-            r.getCantidad(),
-            r.getFechaReserva()
-        });
+        modelo = new DefaultTableModel(
+            // Definición de los nombres de las columnas que tendrá la tabla
+            new String[]{"ID Reserva", "Vuelo", "Origen", "Destino", "Fecha Vuelo", "Cantidad", "Fecha Reserva"}, 0
+        );
+        tablaReservas.setModel(modelo); // Asocia el modelo con la tabla visible
     }
+    
+    /**
+     * Método que obtiene las reservas del usuario desde la base de datos mediante el DAO,
+     * y las agrega al modelo para que se muestren en la tabla.
+     */
+    private void cargarReservas() {
+        modelo.setRowCount(0); // Limpia filas previas para refrescar la tabla
+        ReservaDAO dao = new ReservaDAO(); // Instancia el objeto para acceder a datos de reservas
+        List<ReservaInfo> reservas = dao.obtenerReservasPorUsuario(idUsuario); // Trae las reservas
+
+        // Recorre la lista de reservas y añade cada una como una fila en la tabla
+        for (ReservaInfo r : reservas) {
+            modelo.addRow(new Object[]{
+                r.getIdReserva(),
+                r.getNombreVuelo(),
+                r.getOrigen(),
+                r.getDestino(),
+                r.getFechaVuelo(),
+                r.getCantidad(),
+                r.getFechaReserva()
+            });
+        }
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -144,34 +167,54 @@ public class MisReservas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+ * Evento que se ejecuta al presionar el botón "Cancelar".
+ * Permite cancelar la reserva seleccionada en la tabla después de confirmar.
+ *
+ * @param evt Evento generado por el clic en el botón
+ */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaReservas.getSelectedRow();
-if (fila == -1) {
-    JOptionPane.showMessageDialog(this, "Selecciona una reserva.");
-    return;
-}
-
-int idReserva = (int) modelo.getValueAt(fila, 0);
-int confirm = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la reserva?", "Confirmar", JOptionPane.YES_NO_OPTION);
-
-if (confirm == JOptionPane.YES_OPTION) {
-    ReservaDAO dao = new ReservaDAO();
-    if (dao.cancelarReserva(idReserva)) {
-        JOptionPane.showMessageDialog(this, "Reserva cancelada.");
-        cargarReservas();
-    } else {
-        JOptionPane.showMessageDialog(this, "Error al cancelar.");
+          // Verificar que se haya seleccionado alguna fila
+           int fila = tablaReservas.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona una reserva.");
+        return; // Salir si no hay selección
     }
-}
-    }//GEN-LAST:event_btnCancelarActionPerformed
 
+    // Obtener el ID de la reserva de la columna 0 de la fila seleccionada
+    int idReserva = (int) modelo.getValueAt(fila, 0);
+
+    // Mostrar cuadro de diálogo para confirmar la cancelación
+    int confirm = JOptionPane.showConfirmDialog(this, "¿Deseas cancelar la reserva?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+    // Si el usuario confirma la cancelación
+    if (confirm == JOptionPane.YES_OPTION) {
+        ReservaDAO dao = new ReservaDAO();
+
+        // Intentar cancelar la reserva en la base de datos
+        if (dao.cancelarReserva(idReserva)) {
+            JOptionPane.showMessageDialog(this, "Reserva cancelada.");
+            cargarReservas(); // Refrescar la tabla para mostrar cambios
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al cancelar.");
+        }
+    }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+    /**
+ * Evento que se ejecuta al presionar el botón "Regresar".
+ * Cierra la ventana actual y abre la ventana principal.
+ *
+ * @param evt Evento generado por el clic en el botón
+ */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
-        Ventanaprincipal principal = new Ventanaprincipal();
-        principal.setVisible(true);
-        this.dispose();
+        // Crear instancia de la ventana principal
+    Ventanaprincipal principal = new Ventanaprincipal();
+
+    // Mostrar la ventana principal
+    principal.setVisible(true);
+
+    // Cerrar la ventana actual para liberar recursos
+    this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

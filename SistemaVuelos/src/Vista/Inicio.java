@@ -6,17 +6,23 @@ package Vista;
 
 /**
  *
- * @author USER
+ * @author Emesis
+ */
+/**
+ * Clase que representa la ventana principal o de inicio de la aplicación.
+ * Hereda de JFrame y contiene la interfaz gráfica inicial.
  */
 public class Inicio extends javax.swing.JFrame {
 
     /**
-     * Creates new form Formulario
+     * Constructor de la clase Inicio.
+     * Inicializa los componentes gráficos y centra la ventana en la pantalla.
      */
     public Inicio() {
-        initComponents();
-        setLocationRelativeTo(null);
+        initComponents();           // Inicializa los componentes Swing generados (botones, labels, etc.)
+        setLocationRelativeTo(null); // Centra la ventana en el medio de la pantalla
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,12 +85,21 @@ public class Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+ * Evento que se ejecuta al presionar el botón "Ingresar".
+ * Cierra la ventana actual y abre la ventana principal de la aplicación.
+ *
+ * @param evt Evento generado por el clic en el botón
+ */
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // Boton que llamara a el formulario de registro
-        Ventanaprincipal principal = new Ventanaprincipal();
-        principal.setVisible(true);
-        this.dispose();
+       // Crear una instancia de la ventana principal
+    Ventanaprincipal principal = new Ventanaprincipal();
+
+    // Mostrar la ventana principal
+    principal.setVisible(true);
+
+    // Cerrar (descartar) la ventana actual para liberar recursos
+    this.dispose();;
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

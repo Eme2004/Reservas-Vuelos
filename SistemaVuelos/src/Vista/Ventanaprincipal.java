@@ -7,17 +7,18 @@ package Vista;
 
 /**
  *
- * @author USER
+ * @author Emesis
  */
 public class Ventanaprincipal extends javax.swing.JFrame {
 
     /**
-     * Creates new form VentanaPrincipal
+     * Constructor de la clase Ventanaprincipal
+     * Inicializa los componentes gráficos y centra la ventana en la pantalla
      */
     public Ventanaprincipal() {
-        initComponents();
-        setLocationRelativeTo(null);
-    }
+        initComponents();           // Inicializa todos los componentes creados en el GUI Builder
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla al abrirse
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,22 +123,27 @@ public class Ventanaprincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        // TODO add your handling code here:
-        Formulario formulario = new Formulario();
-        formulario.setVisible(true);
-        this.dispose();
+        // Acción que se ejecuta al presionar el botón "Registrar"
+    // Abre la ventana del formulario para registrar un nuevo usuario
+    Formulario formulario = new Formulario();
+    formulario.setVisible(true);
+    // Cierra la ventana actual para no dejar ventanas abiertas duplicadas
+    this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
-        InicioSesion sesion = new InicioSesion();
-        sesion.setVisible(true);
-        this.dispose();
+     // Acción que se ejecuta al presionar el botón "Iniciar Sesión"
+    // Abre la ventana de inicio de sesión
+    InicioSesion sesion = new InicioSesion();
+    sesion.setVisible(true);
+    // Cierra la ventana actual
+    this.dispose();
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+     // Acción que se ejecuta al presionar el botón "Salir"
+    // Finaliza la ejecución completa de la aplicación
+    System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**

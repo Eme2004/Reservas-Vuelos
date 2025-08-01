@@ -8,22 +8,33 @@ import POJO.Vuelo;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author USER
+ * @author Emesis
+ */
+/**
+ * DAO (Data Access Object) para manejar las operaciones CRUD sobre la tabla de vuelos.
+ * Esta clase se encarga de insertar, actualizar, eliminar y consultar vuelos desde la base de datos.
  */
 public class VueloDAO {
-    // CREATE - Insertar vuelo
+
+    /**
+     * Inserta un nuevo vuelo en la base de datos.
+     *
+     * @param vuelo Objeto Vuelo con todos los datos necesarios para registrar el vuelo.
+     * @return true si la inserción fue exitosa, false en caso contrario.
+     */
     public boolean insertar(Vuelo vuelo) {
         String sql = "INSERT INTO vuelos (aerolinea, origen, destino, fecha_salida, hora_salida, escalas, precio, asientos_disponibles) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // Establecer parámetros en el PreparedStatement
             stmt.setString(1, vuelo.getAerolinea());
             stmt.setString(2, vuelo.getOrigen());
             stmt.setString(3, vuelo.getDestino());
@@ -33,22 +44,29 @@ public class VueloDAO {
             stmt.setDouble(7, vuelo.getPrecio());
             stmt.setInt(8, vuelo.getAsientosDisponibles());
 
+            // Ejecutar inserción
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar vuelo: " + e.getMessage());
+            System.out.println(" Error al insertar vuelo: " + e.getMessage());
             return false;
         }
     }
 
-    // READ - Obtener todos los vuelos
+    /**
+     * Obtiene todos los vuelos registrados en la base de datos, ordenados por fecha y hora de salida.
+     *
+     * @return Lista de objetos Vuelo con todos los vuelos disponibles.
+     */
     public List<Vuelo> obtenerTodos() {
         List<Vuelo> lista = new ArrayList<>();
         String sql = "SELECT * FROM vuelos ORDER BY fecha_salida, hora_salida";
+
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            // Recorrer resultados y mapear a objetos Vuelo
             while (rs.next()) {
                 Vuelo vuelo = new Vuelo(
                     rs.getInt("id_vuelo"),
@@ -65,12 +83,20 @@ public class VueloDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al obtener vuelos: " + e.getMessage());
+            System.out.println(" Error al obtener vuelos: " + e.getMessage());
         }
+
         return lista;
     }
 
-    // READ - Buscar vuelos filtrando por origen, destino y fecha
+    /**
+     * Busca vuelos que coincidan con el origen, destino y fecha proporcionados.
+     *
+     * @param origen  Ciudad o aeropuerto de salida.
+     * @param destino Ciudad o aeropuerto de llegada.
+     * @param fecha   Fecha exacta del vuelo.
+     * @return Lista de vuelos que cumplen los filtros especificados.
+     */
     public List<Vuelo> buscarVuelos(String origen, String destino, LocalDate fecha) {
         List<Vuelo> lista = new ArrayList<>();
         String sql = "SELECT * FROM vuelos WHERE origen = ? AND destino = ? AND fecha_salida = ? ORDER BY hora_salida";
@@ -84,6 +110,7 @@ public class VueloDAO {
 
             ResultSet rs = stmt.executeQuery();
 
+            // Mapear resultados a objetos Vuelo
             while (rs.next()) {
                 Vuelo vuelo = new Vuelo(
                     rs.getInt("id_vuelo"),
@@ -100,15 +127,21 @@ public class VueloDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al buscar vuelos: " + e.getMessage());
+            System.out.println(" Error al buscar vuelos: " + e.getMessage());
         }
 
         return lista;
     }
 
-    // UPDATE - Actualizar vuelo
+    /**
+     * Actualiza los datos de un vuelo existente en la base de datos.
+     *
+     * @param vuelo Objeto Vuelo con la información actualizada.
+     * @return true si la actualización fue exitosa, false si hubo error.
+     */
     public boolean actualizar(Vuelo vuelo) {
         String sql = "UPDATE vuelos SET aerolinea=?, origen=?, destino=?, fecha_salida=?, hora_salida=?, escalas=?, precio=?, asientos_disponibles=? WHERE id_vuelo=?";
+
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -125,14 +158,20 @@ public class VueloDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al actualizar vuelo: " + e.getMessage());
+            System.out.println(" Error al actualizar vuelo: " + e.getMessage());
             return false;
         }
     }
 
-    // DELETE - Eliminar vuelo por ID
+    /**
+     * Elimina un vuelo de la base de datos según su ID.
+     *
+     * @param idVuelo ID del vuelo que se desea eliminar.
+     * @return true si la eliminación fue exitosa, false en caso de error.
+     */
     public boolean eliminar(int idVuelo) {
         String sql = "DELETE FROM vuelos WHERE id_vuelo=?";
+
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -140,7 +179,7 @@ public class VueloDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al eliminar vuelo: " + e.getMessage());
+            System.out.println(" Error al eliminar vuelo: " + e.getMessage());
             return false;
         }
     }

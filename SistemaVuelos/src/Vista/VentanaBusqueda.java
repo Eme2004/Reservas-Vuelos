@@ -12,44 +12,54 @@ import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 /**
  *
- * @author USER
+ * @author Emesis
+ */
+/**
+ * Clase que representa la ventana de búsqueda de vuelos.
+ * Permite mostrar todos los vuelos disponibles en una tabla.
  */
 public class VentanaBusqueda extends javax.swing.JFrame {
-    private int idUsuario;
+    
+    private int idUsuario;  // ID del usuario que está usando la ventana, para control o seguimiento
 
+    /**
+     * Constructor que recibe el ID de usuario, inicializa componentes y centra la ventana.
+     * 
+     * @param idusuario ID del usuario que utiliza la ventana
+     */
     public VentanaBusqueda(int idusuario) {
         this.idUsuario = idusuario;
-        initComponents();
-        setLocationRelativeTo(null);
+        initComponents();              // Inicializa componentes gráficos generados por GUI builder
+        setLocationRelativeTo(null);  // Centra la ventana en la pantalla
     }
-    
-    
+
     /**
-     * Creates new form VentanaBusqueda
+     * Método que carga todos los vuelos disponibles desde la base de datos
+     * y los muestra en la tabla tblVuelos.
      */
-    
-    
     private void cargarVuelosEnTabla() {
-    VueloDAO dao = new VueloDAO();
-    List<Vuelo> lista = dao.obtenerTodos();
+        VueloDAO dao = new VueloDAO();          // Crear instancia del DAO para acceder a datos de vuelos
+        List<Vuelo> lista = dao.obtenerTodos(); // Obtener lista completa de vuelos
 
-    DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
-    modelo.setRowCount(0); // Limpiar tabla
+        // Obtener el modelo de la tabla para modificar filas
+        DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
+        modelo.setRowCount(0);                   // Limpiar tabla borrando todas las filas
 
-    for (Vuelo v : lista) {
-        modelo.addRow(new Object[]{
-            v.getIdVuelo(),
-            v.getAerolinea(),
-            v.getOrigen(),
-            v.getDestino(),
-            v.getFechaSalida(),
-            v.getHoraSalida(),
-            v.getEscalas(), 
-            v.getPrecio(),
-            v.getAsientosDisponibles()
-        });
-    }
-}
+        // Recorrer la lista de vuelos y agregar cada uno como fila en la tabla
+        for (Vuelo v : lista) {
+            modelo.addRow(new Object[]{
+                v.getIdVuelo(),
+                v.getAerolinea(),
+                v.getOrigen(),
+                v.getDestino(),
+                v.getFechaSalida(),
+                v.getHoraSalida(),
+                v.getEscalas(), 
+                v.getPrecio(),
+                v.getAsientosDisponibles()
+            });
+        }
+ }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,81 +207,94 @@ public class VentanaBusqueda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-      String origen = txtOrigen.getText().trim();
-String destino = txtDestino.getText().trim();
-String fechaTexto = txtFecha.getText().trim();
+      // Obtener los datos ingresados por el usuario en los campos de texto
+    String origen = txtOrigen.getText().trim();
+    String destino = txtDestino.getText().trim();
+    String fechaTexto = txtFecha.getText().trim();
 
-if (fechaTexto.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Ingrese una fecha (formato: yyyy-MM-dd).");
-    return;
-}
+    // Validar que se haya ingresado una fecha
+    if (fechaTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese una fecha (formato: yyyy-MM-dd).");
+        return; // Salir del método si no hay fecha
+    }
 
-LocalDate fecha;
-try {
-    fecha = LocalDate.parse(fechaTexto); // formato: yyyy-MM-dd
-} catch (DateTimeParseException e) {
-    JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use: yyyy-MM-dd");
-    return;
-}
+    LocalDate fecha;
+    try {
+        // Intentar convertir el texto de la fecha al objeto LocalDate
+        fecha = LocalDate.parse(fechaTexto); // formato esperado: yyyy-MM-dd
+    } catch (DateTimeParseException e) {
+        // Si el formato es incorrecto, mostrar mensaje de error y salir
+        JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use: yyyy-MM-dd");
+        return;
+    }
 
-VueloDAO dao = new VueloDAO();
-List<Vuelo> lista = dao.buscarVuelos(origen, destino, fecha);
+    // Crear instancia del DAO para consultar vuelos
+    VueloDAO dao = new VueloDAO();
+    // Buscar vuelos que coincidan con origen, destino y fecha especificados
+    List<Vuelo> lista = dao.buscarVuelos(origen, destino, fecha);
 
-DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
-modelo.setRowCount(0); // Limpiar tabla
+    // Obtener el modelo de la tabla para manipular los datos mostrados
+    DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
+    modelo.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
 
-for (Vuelo v : lista) {
-    modelo.addRow(new Object[]{
-        v.getIdVuelo(),
-        v.getAerolinea(),
-        v.getOrigen(),
-        v.getDestino(),
-        v.getFechaSalida(),
-        v.getHoraSalida(),
-        v.getEscalas(),
-        v.getPrecio(),
-        v.getAsientosDisponibles()
-    });
-}
+    // Agregar cada vuelo encontrado como una fila en la tabla
+    for (Vuelo v : lista) {
+        modelo.addRow(new Object[]{
+            v.getIdVuelo(),
+            v.getAerolinea(),
+            v.getOrigen(),
+            v.getDestino(),
+            v.getFechaSalida(),
+            v.getHoraSalida(),
+            v.getEscalas(),
+            v.getPrecio(),
+            v.getAsientosDisponibles()
+        });
+    }
 
-if (lista.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "No se encontraron vuelos con esos criterios.");
-}
+    // Si no se encontraron vuelos, mostrar mensaje al usuario
+    if (lista.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron vuelos con esos criterios.");
+ }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
-        VentanaReservas reservas = new VentanaReservas(idUsuario);
-        reservas.setVisible(true);
-        this.dispose();
+         // Acción para regresar a la ventana de reservas
+    VentanaReservas reservas = new VentanaReservas(idUsuario);
+    reservas.setVisible(true);  // Mostrar ventana de reservas
+    this.dispose();             // Cerrar ventana actual
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnHacerReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHacerReservaActionPerformed
-        // TODO add your handling code here:
-  int fila = tblVuelos.getSelectedRow();
+       // Obtener la fila seleccionada en la tabla de vuelos
+    int fila = tblVuelos.getSelectedRow();
     if (fila == -1) {
+        // Si no se ha seleccionado ninguna fila, mostrar alerta y salir
         JOptionPane.showMessageDialog(this, "Seleccione un vuelo.");
         return;
     }
 
+    // Obtener el modelo de la tabla para acceder a los datos de la fila seleccionada
     DefaultTableModel modelo = (DefaultTableModel) tblVuelos.getModel();
 
+    // Crear un objeto Vuelo y asignar los valores de la fila seleccionada
     Vuelo vuelo = new Vuelo();
     vuelo.setIdVuelo(Integer.parseInt(modelo.getValueAt(fila, 0).toString()));
     vuelo.setAerolinea(modelo.getValueAt(fila, 1).toString());
     vuelo.setOrigen(modelo.getValueAt(fila, 2).toString());
     vuelo.setDestino(modelo.getValueAt(fila, 3).toString());
+    // Validar posibles valores nulos para fecha y hora y asignar como String
     String fecha = modelo.getValueAt(fila, 4) != null ? modelo.getValueAt(fila, 4).toString() : "";
     String hora = modelo.getValueAt(fila, 5) != null ? modelo.getValueAt(fila, 5).toString() : "";
     String escalasStr = modelo.getValueAt(fila, 6) != null ? modelo.getValueAt(fila, 6).toString() : "0";
 
- 
     vuelo.setPrecio(Double.parseDouble(modelo.getValueAt(fila, 7).toString()));
     vuelo.setAsientosDisponibles(Integer.parseInt(modelo.getValueAt(fila, 8).toString()));
 
+    // Crear la ventana de reserva con el vuelo seleccionado y el ID de usuario
     Reserva reserva = new Reserva(vuelo, idUsuario);
-    reserva.setVisible(true);
+    reserva.setVisible(true);  // Mostrar ventana de reserva
+
     }//GEN-LAST:event_btnHacerReservaActionPerformed
 
     /**

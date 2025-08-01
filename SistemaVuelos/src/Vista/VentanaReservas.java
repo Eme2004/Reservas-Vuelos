@@ -6,24 +6,22 @@ package Vista;
 
 /**
  *
- * @author USER
+ * @author Emesis
  */
 public class VentanaReservas extends javax.swing.JFrame {
-     private int idUsuario;
+    // Variable para almacenar el ID del usuario actual
+    private int idUsuario;
 
+    // Constructor que recibe el ID del usuario que ha iniciado sesión
     public VentanaReservas(int idUsuario) {
-        initComponents();
-        this.idUsuario = idUsuario;
-        setLocationRelativeTo(null);
-    }
-
-     
-     
+        initComponents();          // Inicializa los componentes gráficos de la ventana
+        this.idUsuario = idUsuario; // Asigna el ID recibido a la variable de la clase
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+}
     /**
      * Creates new form VentanaReservas
      */
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,21 +111,27 @@ public class VentanaReservas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarVuelosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVuelosActionPerformed
-        // TODO add your handling code here:
-        VentanaBusqueda busqueda = new VentanaBusqueda(idUsuario);
-        busqueda.setVisible(true);
-        this.dispose();
+        // Acción que se ejecuta al presionar el botón "Buscar Vuelos"
+    // Crea una nueva ventana de búsqueda de vuelos, pasando el ID del usuario actual
+    VentanaBusqueda busqueda = new VentanaBusqueda(idUsuario);
+    // Muestra la ventana de búsqueda
+    busqueda.setVisible(true);
+    // Cierra la ventana actual para evitar duplicados
+    this.dispose();
     }//GEN-LAST:event_btnBuscarVuelosActionPerformed
 
     private void btnVerReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReservasActionPerformed
-        // TODO add your handling code here:
-       MisReservas ventana = new MisReservas(idUsuario);
-       ventana.setVisible(true);
+        // Acción que se ejecuta al presionar el botón "Ver Reservas"
+    // Crea una nueva ventana para mostrar las reservas del usuario actual
+    MisReservas ventana = new MisReservas(idUsuario);
+    // Muestra la ventana de reservas
+    ventana.setVisible(true);
     }//GEN-LAST:event_btnVerReservasActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+     // Acción que se ejecuta al presionar el botón "Cerrar Sesión"
+    // Termina la ejecución de la aplicación completamente
+    System.exit(0);
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
