@@ -7,9 +7,25 @@ package Vista;
 import DAO.ReservaDAO;
 import DAO.ReservaInfo;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
 /**
  *
  * @author Emesis
@@ -78,6 +94,115 @@ public class MisReservas extends javax.swing.JFrame {
             });
         }
 }
+   private void crearPDF(String filePath) throws FileNotFoundException {
+    try {
+        // Crear documento
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+        document.open();
+
+        // Fuentes
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+        Font normalFont = new Font(Font.FontFamily.HELVETICA, 10);
+        Font headerFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+
+        // Título del documento
+        Paragraph titulo = new Paragraph("REPORTE DE MIS RESERVAS", titleFont);
+        titulo.setAlignment(Element.ALIGN_CENTER);
+        titulo.setSpacingAfter(20);
+        document.add(titulo);
+
+        // Fecha de generación
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Paragraph fecha = new Paragraph("Fecha de generación: " + dateFormat.format(new Date()), normalFont);
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        fecha.setSpacingAfter(20);
+        document.add(fecha);
+
+        // Verificar si hay reservas
+        if (modelo.getRowCount() == 0) {
+            Paragraph sinReservas = new Paragraph("No tienes reservas registradas.", normalFont);
+            sinReservas.setAlignment(Element.ALIGN_CENTER);
+            document.add(sinReservas);
+        } else {
+            // Agregar encabezados
+            Paragraph encabezado = new Paragraph("LISTADO DE RESERVAS DE VUELOS", headerFont);
+            encabezado.setSpacingAfter(15);
+            document.add(encabezado);
+            
+            // Crear tabla con las columnas de tu modelo
+            PdfPTable table = new PdfPTable(7); // 7 columnas
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10);
+            
+            // Establecer anchos relativos de las columnas
+            float[] columnWidths = {1f, 1.5f, 2f, 2f, 2f, 1f, 2f};
+            table.setWidths(columnWidths);
+            
+            // Agregar encabezados de la tabla
+            String[] headers = {"ID Reserva", "Vuelo", "Origen", "Destino", "Fecha Vuelo", "Cantidad", "Fecha Reserva"};
+            Font headerTableFont = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
+            
+            for (String header : headers) {
+                PdfPCell cell = new PdfPCell(new Phrase(header, headerTableFont));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setPadding(8);
+                cell.setBackgroundColor(new com.itextpdf.text.BaseColor(230, 230, 230));
+                table.addCell(cell);
+            }
+            
+            // Agregar datos de las reservas
+            Font dataFont = new Font(Font.FontFamily.HELVETICA, 8);
+            
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                // Columna 0: ID Reserva
+                String idReserva = modelo.getValueAt(i, 0) != null ? modelo.getValueAt(i, 0).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(idReserva, dataFont)));
+                
+                // Columna 1: Vuelo
+                String vuelo = modelo.getValueAt(i, 1) != null ? modelo.getValueAt(i, 1).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(vuelo, dataFont)));
+                
+                // Columna 2: Origen
+                String origen = modelo.getValueAt(i, 2) != null ? modelo.getValueAt(i, 2).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(origen, dataFont)));
+                
+                // Columna 3: Destino
+                String destino = modelo.getValueAt(i, 3) != null ? modelo.getValueAt(i, 3).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(destino, dataFont)));
+                
+                // Columna 4: Fecha Vuelo
+                String fechaVuelo = modelo.getValueAt(i, 4) != null ? modelo.getValueAt(i, 4).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(fechaVuelo, dataFont)));
+                
+                // Columna 5: Cantidad
+                String cantidad = modelo.getValueAt(i, 5) != null ? modelo.getValueAt(i, 5).toString() : "";
+                PdfPCell cantidadCell = new PdfPCell(new Phrase(cantidad, dataFont));
+                cantidadCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cantidadCell);
+                
+                // Columna 6: Fecha Reserva
+                String fechaReserva = modelo.getValueAt(i, 6) != null ? modelo.getValueAt(i, 6).toString() : "";
+                table.addCell(new PdfPCell(new Phrase(fechaReserva, dataFont)));
+            }
+            
+            document.add(table);
+            
+            // Agregar resumen al final
+            Paragraph resumen = new Paragraph("\nTotal de reservas: " + modelo.getRowCount(), normalFont);
+            resumen.setSpacingBefore(20);
+            document.add(resumen);
+        }
+
+        // Cerrar el documento
+        document.close();
+        
+    } catch (DocumentException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Error al generar el PDF: " + e.getMessage());
+    }
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,6 +217,7 @@ public class MisReservas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        btnGenerarPdf = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,7 +239,7 @@ public class MisReservas extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText("Cancelar Reserva");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -128,24 +254,35 @@ public class MisReservas extends javax.swing.JFrame {
             }
         });
 
+        btnGenerarPdf.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnGenerarPdf.setText("Generar PDF");
+        btnGenerarPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPdfActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(198, 198, 198)
+                .addGap(31, 31, 31)
                 .addComponent(btnCancelar)
-                .addGap(112, 112, 112)
+                .addGap(104, 104, 104)
+                .addComponent(btnGenerarPdf)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRegresar)
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar)
                     .addComponent(btnCancelar)
-                    .addComponent(btnRegresar))
+                    .addComponent(btnGenerarPdf))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -153,7 +290,7 @@ public class MisReservas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -217,6 +354,45 @@ public class MisReservas extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnGenerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPdfActionPerformed
+       try {
+        // Crear un JFileChooser para que el usuario elija dónde guardar
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar PDF de Reservas");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos PDF", "pdf"));
+        fileChooser.setSelectedFile(new File("mis_reservas.pdf"));
+        
+        int userSelection = fileChooser.showSaveDialog(this);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+            
+            // Asegurar que termine en .pdf
+            if (!filePath.toLowerCase().endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+            
+            // Llamar tu método
+            crearPDF(filePath);
+            
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, 
+                "PDF generado exitosamente en:\n" + filePath, 
+                "PDF Creado", 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+            "Error al generar el PDF: " + e.getMessage(), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+        
+    }//GEN-LAST:event_btnGenerarPdfActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -224,6 +400,7 @@ public class MisReservas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGenerarPdf;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

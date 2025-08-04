@@ -74,9 +74,9 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="323" max="-2" attributes="0"/>
                   <Component id="btnHacerReserva" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="btnRegresar" min="-2" max="-2" attributes="0"/>
               </Group>
               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>

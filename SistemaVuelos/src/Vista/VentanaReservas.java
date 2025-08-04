@@ -36,6 +36,7 @@ public class VentanaReservas extends javax.swing.JFrame {
         btnBuscarVuelos = new javax.swing.JButton();
         btnVerReservas = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
+        btnVuelosReales = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +77,14 @@ public class VentanaReservas extends javax.swing.JFrame {
             }
         });
 
+        btnVuelosReales.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        btnVuelosReales.setText("Vuelos Reales");
+        btnVuelosReales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVuelosRealesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,14 +94,17 @@ public class VentanaReservas extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(btnBuscarVuelos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnVuelosReales)
+                    .addComponent(btnBuscarVuelos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnVerReservas)
-                .addGap(34, 34, 34))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(160, 160, 160))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnVerReservas)
+                        .addGap(34, 34, 34))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,9 +114,11 @@ public class VentanaReservas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscarVuelos)
                     .addComponent(btnVerReservas))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addGap(19, 19, 19))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVuelosReales)
+                    .addComponent(btnCerrarSesion))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -134,6 +148,13 @@ public class VentanaReservas extends javax.swing.JFrame {
     System.exit(0);
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
+    private void btnVuelosRealesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVuelosRealesActionPerformed
+        // Boton para ver los vuelos reales 
+         VuelosReales reales = new VuelosReales();
+         reales.setVisible(true);
+         this.dispose();
+    }//GEN-LAST:event_btnVuelosRealesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -143,6 +164,7 @@ public class VentanaReservas extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarVuelos;
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnVerReservas;
+    private javax.swing.JButton btnVuelosReales;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

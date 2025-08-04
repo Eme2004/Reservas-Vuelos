@@ -19,6 +19,7 @@ public class Ventanaprincipal extends javax.swing.JFrame {
         initComponents();           // Inicializa todos los componentes creados en el GUI Builder
         setLocationRelativeTo(null); // Centra la ventana en la pantalla al abrirse
 }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
