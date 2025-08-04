@@ -238,17 +238,21 @@ Pantalla principal con opciones de registro, login y salida
 Interfaz de búsqueda avanzada con filtros
 <img width="1063" height="537" alt="image" src="https://github.com/user-attachments/assets/2498d10a-a658-4175-81c7-1fbac17d9b15" />
 
+
 🎫 Gestión de Reservas
 Panel de administración de reservas personales
 <img width="382" height="293" alt="image" src="https://github.com/user-attachments/assets/64e3d19b-0358-4146-be3d-bb8ee6233e2d" />
+
 
 ✈️ Vuelos Reales en Tiempo Real
 Integración con OpenSky Network API
 <img width="883" height="586" alt="image" src="https://github.com/user-attachments/assets/f057873d-118a-41dd-8ab4-6fcca6e07101" />
 
+
 🔑 Inicio de Sesión
 Autenticación de usuarios registrados
 <img width="592" height="488" alt="image" src="https://github.com/user-attachments/assets/5c7ffa66-f50f-4bb8-9b24-ff05b6d8a1ef" />
+
 
 📄 Reporte PDF Generado
 Ejemplo de exportación de reservas a PDF
