@@ -257,6 +257,7 @@ Autenticación de usuarios registrados
 📄 Reporte PDF Generado
 Ejemplo de exportación de reservas a PDF
 <img width="781" height="414" alt="image" src="https://github.com/user-attachments/assets/7b9f0cd4-1bee-4848-8bf0-e4590c618ecd" />
+
 <img width="755" height="583" alt="image" src="https://github.com/user-attachments/assets/fb7a99d2-63fb-403f-a98b-8ec33c8bbc95" />
 
 
